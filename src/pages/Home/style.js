@@ -35,7 +35,7 @@ export const FooterContent = styled.div`
   h3 {
     font-size: 24px;
     font-weight: lighter;
-    width: 65%;
+    width: 60%;
   }
 
   .search-home-container {
@@ -57,7 +57,13 @@ export const FooterContent = styled.div`
     display: flex;
     justify-content: space-between;
 
-    input {
+    select {
+      background: ${(props) => props.theme['red-600']};
+      border-radius: 8px;
+      border: none;
+      width: 297px;
+      height: 72px;
+
       margin: 0 20px;
       color: ${(props) => props.theme['white']};
       text-align: center;
