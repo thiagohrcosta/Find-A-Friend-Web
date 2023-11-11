@@ -4,17 +4,25 @@ import { BannerContent, FooterContent, HomeBackground, HomeContainer } from './s
 import { SearchIcon } from '../../components/Icons/searchIcon';
 import { useCities } from '../../hooks/useCities';
 import { useState } from 'react';
+import api from '../../services/api';
+import { Link } from 'react-router-dom';
 
 export default function Home(){
   const { listOfStates } = useCities();
-  const [selectedState, setSelectedState] = useState("")
-  const [selectedCities, setSelectedCities] = useState([]);
+  const [selectedState, setSelectedState] = useState("");
+  const [selectedCities, setSelectedCities] = useState(["Escolha uma cidade"]);
+  const [citySelected, setCitySelected] = useState(null);
 
   function handleStateChange(e) {
     const state = e.target.value;
     console.log(state)
     setSelectedState(state);
-    setSelectedCities(listOfStates[state] || []);
+    setSelectedCities([...selectedCities, ...(listOfStates[state] || [])]);
+  }
+
+  function handleCitySelectedByUser(e) {
+    console.log(e)
+    setCitySelected(e)
   }
 
   return (
@@ -48,7 +56,13 @@ export default function Home(){
               </select>
               {selectedState && selectedCities.length > 0 && (
                 <>
-                  <select id="cities" value={selectedCities[0]} onChange={() => {}}>
+                  <select
+                    id="cities"
+                    value={citySelected}
+                    onChange={(e) => {
+                      handleCitySelectedByUser(e.target.value);
+                    }}
+                  >
                     {selectedCities.map((city) => (
                       <option key={city} value={city}>
                         {city}
@@ -57,7 +71,13 @@ export default function Home(){
                   </select>
                 </>
               )}
-              <SearchIcon width={"72px"} height={"72px"} iconSize={"26px"} />
+              {citySelected !== null ? (
+                <Link to={`http://localhost:3000/${citySelected}`}>
+                  <SearchIcon width={"72px"} height={"72px"} iconSize={"26px"} />
+                </Link>
+              ) : (
+                <SearchIcon width={"72px"} height={"72px"} iconSize={"26px"} />
+              )}
             </div>
           </div>
         </FooterContent>
