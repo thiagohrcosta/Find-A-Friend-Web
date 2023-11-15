@@ -4,8 +4,9 @@ import { useParams } from "react-router";
 import api from "../../services/api";
 import { CityBackground, CityDashboard, PetGrid, PetsContainer, Spinner } from "./styles";
 
-import SmallLogo from "../../assets/images/smallLogo.svg"
 import { PetCard } from "../../components/PetCard";
+import { Link } from "react-router-dom";
+import { LeftContainer } from "../../components/LeftContainer";
 
 export default function City() {
   const { city } = useParams();
@@ -29,7 +30,7 @@ export default function City() {
     <CityBackground>
       <CityDashboard>
         <div className="dashboard">
-          <img src={SmallLogo} alt="Logo" />
+          <LeftContainer />
         </div>
         <div className="content-container">
         {isLoading === true ? (
@@ -53,10 +54,12 @@ export default function City() {
             <PetGrid>
             {listOfPets.map((pet) => {
               return (
-                <PetCard 
-                  photo={pet.photo}
-                  name={pet.name}
-                />
+                <Link to={`http://localhost:3000/pets/${pet.id}`}>
+                  <PetCard 
+                    photo={pet.photo}
+                    name={pet.name}
+                  />
+                </Link>
               )
             })}
             </PetGrid>
